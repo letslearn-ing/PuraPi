@@ -1,9 +1,24 @@
 import Foundation
+import PiDomain
 import XCTest
 @testable import PuraPi
 
 @MainActor
 final class PuraPiMarkdownTests: XCTestCase {
+    func testMarkdownDragDecodesUUIDPayloadAndAdvertisesLegacyType() {
+        let blockID = UUID()
+        XCTAssertEqual(
+            PuraPiMarkdownDrag.blockID(from: Data("\(blockID)\n".utf8)),
+            blockID
+        )
+        XCTAssertNil(PuraPiMarkdownDrag.blockID(from: Data("not-a-uuid".utf8)))
+        XCTAssertTrue(
+            PuraPiMarkdownDrag.acceptedTypes.contains {
+                $0.identifier == PuraPiLegacyIdentifiers.markdownBlockUTI
+            }
+        )
+    }
+
     func testMarkdownParserPreservesBlockStructure() {
         let blocks = PuraPiMarkdownParser.parse("""
         # 标题
