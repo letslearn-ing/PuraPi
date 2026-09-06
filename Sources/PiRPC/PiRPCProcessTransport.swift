@@ -35,12 +35,12 @@ public final class PiRPCProcessTransport: PiRPCTransport, @unchecked Sendable {
     private let resolver: PiExecutableResolver
     private let processArguments: [String]
     private let environmentOverrides: [String: String]
-    private let stateQueue = DispatchQueue(label: "WorkPi.PiRPCProcessTransport.state")
+    private let stateQueue = DispatchQueue(label: "PuraPi.PiRPCProcessTransport.state")
     /// stdin writes are deliberately kept off stateQueue.  FileHandle.write can
     /// block when a child stops draining its stdin; stop must still be able to
     /// close the descriptor and terminate the child.
-    private let writeQueue = DispatchQueue(label: "WorkPi.PiRPCProcessTransport.writes")
-    private let readerQueue = DispatchQueue(label: "WorkPi.PiRPCProcessTransport.readers", attributes: .concurrent)
+    private let writeQueue = DispatchQueue(label: "PuraPi.PiRPCProcessTransport.writes")
+    private let readerQueue = DispatchQueue(label: "PuraPi.PiRPCProcessTransport.readers", attributes: .concurrent)
 
     private var process: Process?
     /// 进程清理后旧 reader/termination 回调仍可能排队；用生命周期 token
@@ -65,7 +65,7 @@ public final class PiRPCProcessTransport: PiRPCTransport, @unchecked Sendable {
     private var activeWriteID: UUID?
     private var cancelledWriteIDs: Set<UUID> = []
     /// stderr 只保留一个有界尾部；避免启动错误因等待 processExited 而丢失，
-    /// 也避免把无限输出积存在 WorkPi 内存中。
+    /// 也避免把无限输出积存在 PuraPi 内存中。
     private var stderrDiagnostic = ""
     private var stderrDiagnosticEmitted = false
     private static let maximumDiagnosticBytes = 32 * 1024
@@ -590,7 +590,7 @@ public final class PiRPCProcessTransport: PiRPCTransport, @unchecked Sendable {
         var environment = ProcessInfo.processInfo.environment
         environment.merge(environmentOverrides) { _, override in override }
 
-        // WorkPi 可能由 Xcode、调试器或另一个 Agent 启动；这些父进程会注入
+        // PuraPi 可能由 Xcode、调试器或另一个 Agent 启动；这些父进程会注入
         // DYLD/LD/NODE_OPTIONS 等变量。它们会把调试器动态库带进 Node/Pi，
         // 造成“退出状态码 1”而没有可读的 RPC 错误。Runtime 是独立子进程，
         // 保留用户配置（包括 PI_CODING_AGENT_DIR）和认证所需变量，

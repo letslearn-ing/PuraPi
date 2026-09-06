@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-# WorkPi 的源码可读性门禁：超过阈值的文件应按职责拆分，而不是继续堆叠。
+# PuraPi 的源码可读性门禁：超过阈值的文件应按职责拆分，而不是继续堆叠。
 root="$(cd "$(dirname "$0")/.." && pwd)"
 max_lines="${MAX_LINES:-1000}"
 status=0

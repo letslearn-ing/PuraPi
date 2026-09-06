@@ -2,7 +2,7 @@ import Foundation
 
 /// 编辑器中的一个 Markdown 块。
 ///
-/// 与只读渲染用的块（`WorkPiMarkdownBlock`）不同，这里必须携带**源码文本**与
+/// 与只读渲染用的块（`PuraPiMarkdownBlock`）不同，这里必须携带**源码文本**与
 /// **源码行范围**，并记录块内部及块末的原始行尾：写回时未触碰的源码字节和行尾
 /// 应尽量保留。否则用户只改一行也会重写整个文件，既污染 git diff，也会让 Agent
 /// 的 `edit` 工具失效（它依赖 `oldText` 精确匹配）。

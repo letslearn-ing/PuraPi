@@ -9,7 +9,7 @@ import PiDomain
 /// 写文件，协作层就看不到变更。
 ///
 /// 写入采用原子替换，并在写前校验基线，因为 Pi 的 `file-mutation-queue` 只在
-/// Pi 进程内串行化写入，它不知道 WorkPi 的写入。「Agent 正在写 + 用户正在编辑
+/// Pi 进程内串行化写入，它不知道 PuraPi 的写入。「Agent 正在写 + 用户正在编辑
 /// 同一文件」的丢失风险必须由客户端防。
 public struct MarkdownDocumentStore: Sendable {
     private enum AtomicWriteResult {
@@ -213,7 +213,7 @@ public struct MarkdownDocumentStore: Sendable {
             for: target,
             workspaceRoot: workspaceRoot
         )
-        let temporaryName = ".workpi-\(UUID().uuidString).tmp"
+        let temporaryName = ".purapi-\(UUID().uuidString).tmp"
         var temporaryDescriptor: Int32 = -1
         var didCommit = false
         var temporaryContainsOriginal = false

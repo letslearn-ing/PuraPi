@@ -60,12 +60,12 @@ public struct DirectoryTreeLoader: Sendable {
         let root = try validatedRoot(rootURL)
         let directory = directoryURL.standardizedFileURL
         guard isInside(directory, root: root) else {
-            throw WorkPiError.invalidWorkspace(rootURL)
+            throw PuraPiError.invalidWorkspace(rootURL)
         }
 
         let values = try directory.resourceValues(forKeys: [.isDirectoryKey, .isSymbolicLinkKey])
         guard values.isDirectory == true, values.isSymbolicLink != true else {
-            throw WorkPiError.invalidWorkspace(directoryURL)
+            throw PuraPiError.invalidWorkspace(directoryURL)
         }
         // `loadRoot` and lazy expansion have the same depth contract: root is depth
         // zero and its direct children are depth one.  Do not let an expansion bypass
@@ -85,7 +85,7 @@ public struct DirectoryTreeLoader: Sendable {
         guard FileManager.default.fileExists(atPath: root.path, isDirectory: &isDirectory),
               isDirectory.boolValue
         else {
-            throw WorkPiError.invalidWorkspace(root)
+            throw PuraPiError.invalidWorkspace(root)
         }
         return root
     }
@@ -238,12 +238,12 @@ public struct DirectoryTreeLoader: Sendable {
               let resolvedRoot = realPath(rootURL),
               isInside(resolvedDirectory, root: resolvedRoot)
         else {
-            throw WorkPiError.invalidWorkspace(directory)
+            throw PuraPiError.invalidWorkspace(directory)
         }
         let components = resolvedDirectory.split(separator: "/", omittingEmptySubsequences: true)
         var descriptor = open("/", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_NONBLOCK)
         guard descriptor >= 0 else {
-            throw WorkPiError.invalidWorkspace(directory)
+            throw PuraPiError.invalidWorkspace(directory)
         }
         for component in components {
             let next = component.withCString { name in
@@ -255,14 +255,14 @@ public struct DirectoryTreeLoader: Sendable {
             }
             guard next >= 0 else {
                 close(descriptor)
-                throw WorkPiError.invalidWorkspace(directory)
+                throw PuraPiError.invalidWorkspace(directory)
             }
             close(descriptor)
             descriptor = next
         }
         guard let stream = fdopendir(descriptor) else {
             close(descriptor)
-            throw WorkPiError.invalidWorkspace(directory)
+            throw PuraPiError.invalidWorkspace(directory)
         }
         defer { closedir(stream) }
 

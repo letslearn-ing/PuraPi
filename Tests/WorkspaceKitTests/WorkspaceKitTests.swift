@@ -5,7 +5,7 @@ import XCTest
 final class WorkspaceKitTests: XCTestCase {
     private func makeWorkspace() throws -> (URL, URL) {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         let markdown = root.appendingPathComponent("README.md")
         try "# Hello\n\n内容".write(to: markdown, atomically: true, encoding: .utf8)
@@ -79,7 +79,7 @@ final class WorkspaceKitTests: XCTestCase {
     func testPreviewRejectsSymlinkedAndSpecialFilesWithoutBlocking() throws {
         let (root, _) = try makeWorkspace()
         let outside = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-preview-outside-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-preview-outside-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: outside, withIntermediateDirectories: true)
         defer {
             try? FileManager.default.removeItem(at: root)
@@ -110,7 +110,7 @@ final class WorkspaceKitTests: XCTestCase {
 
     func testUTF16TextIsNotClassifiedAsBinary() throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-utf16-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-utf16-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -132,7 +132,7 @@ final class WorkspaceKitTests: XCTestCase {
 
     func testAllSupportedMarkdownExtensionsUseMarkdownPreviewKind() throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-markdown-extensions-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-markdown-extensions-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -146,7 +146,7 @@ final class WorkspaceKitTests: XCTestCase {
 
     func testNULTextIsNotLoadedAsEditablePreview() throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-binary-markdown-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-binary-markdown-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
         let url = root.appendingPathComponent("binary.md")

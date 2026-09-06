@@ -7,14 +7,14 @@ import XCTest
 /// 文档读写与冲突判定。
 ///
 /// 冲突这部分是刚需而非防御性编程：Pi 的 `file-mutation-queue` 只在 Pi 进程内
-/// 串行化，它看不到 WorkPi 的写入，所以同时编辑必然可能丢内容。
+/// 串行化，它看不到 PuraPi 的写入，所以同时编辑必然可能丢内容。
 final class MarkdownDocumentStoreTests: XCTestCase {
     private var root: URL!
     private let store = MarkdownDocumentStore()
 
     override func setUpWithError() throws {
         root = URL(fileURLWithPath: NSTemporaryDirectory())
-            .appendingPathComponent("workpi-md-\(UUID().uuidString)")
+            .appendingPathComponent("purapi-md-\(UUID().uuidString)")
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
     }
 
@@ -45,7 +45,7 @@ final class MarkdownDocumentStoreTests: XCTestCase {
     /// 越界读取必须拒绝，否则编辑器成了任意文件读写入口。
     func testLoadSupportsSymlinkedWorkspaceRootPath() throws {
         let linkedRoot = root.deletingLastPathComponent()
-            .appendingPathComponent("workpi-md-root-link-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("purapi-md-root-link-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createSymbolicLink(at: linkedRoot, withDestinationURL: root)
         defer { try? FileManager.default.removeItem(at: linkedRoot) }
         let url = linkedRoot.appendingPathComponent("README.md")
@@ -288,7 +288,7 @@ final class MarkdownDocumentStoreTests: XCTestCase {
     /// 用户在冲突界面选「保留我的」时才允许强制覆盖。
     func testForceSaveRejectsTargetOutsideDocumentWorkspace() throws {
         let outsideRoot = URL(fileURLWithPath: NSTemporaryDirectory())
-            .appendingPathComponent("workpi-md-force-outside-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("purapi-md-force-outside-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: outsideRoot, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: outsideRoot) }
         let outsideURL = outsideRoot.appendingPathComponent("doc.md")
@@ -311,7 +311,7 @@ final class MarkdownDocumentStoreTests: XCTestCase {
 
     func testForceSaveRejectsSymlinkedParentDirectory() throws {
         let outsideRoot = URL(fileURLWithPath: NSTemporaryDirectory())
-            .appendingPathComponent("workpi-md-parent-outside-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("purapi-md-parent-outside-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: outsideRoot, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: outsideRoot) }
         let link = root.appendingPathComponent("linked")
@@ -409,7 +409,7 @@ final class MarkdownDocumentStoreTests: XCTestCase {
         _ = try store.save(document)
 
         let remaining = try FileManager.default.contentsOfDirectory(atPath: root.path)
-        XCTAssertEqual(remaining.filter { $0.hasPrefix(".workpi-") }, [])
+        XCTAssertEqual(remaining.filter { $0.hasPrefix(".purapi-") }, [])
     }
 
     // MARK: - 文档变更

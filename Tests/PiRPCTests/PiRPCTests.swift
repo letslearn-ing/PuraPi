@@ -58,7 +58,7 @@ final class PiRPCTests: XCTestCase {
             "data": .object([
                 "commands": .array([
                     .object([
-                        "name": .string("workpi-ui-demo"),
+                        "name": .string("purapi-ui-demo"),
                         "description": .string("演示面板"),
                         "source": .string("extension"),
                     ]),
@@ -68,7 +68,7 @@ final class PiRPCTests: XCTestCase {
         XCTAssertEqual(
             record.commandInfos,
             [PiRPCCommandInfo(
-                name: "workpi-ui-demo",
+                name: "purapi-ui-demo",
                 description: "演示面板",
                 source: "extension"
             )]
@@ -188,7 +188,7 @@ final class PiRPCTests: XCTestCase {
 
     func testExecutableResolverHonorsExplicitOverrideBeforeSearchPath() throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-pi-resolver-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-pi-resolver-\(UUID().uuidString)", isDirectory: true)
         let executable = root.appendingPathComponent("custom-pi")
         defer { try? FileManager.default.removeItem(at: root) }
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
@@ -222,7 +222,7 @@ final class PiRPCTests: XCTestCase {
 
     func testProcessTransportDoesNotPassNodeInjectionEnvironment() async throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-pi-env-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-pi-env-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -265,7 +265,7 @@ final class PiRPCTests: XCTestCase {
 
     func testProcessTransportAttachesStderrToExitDiagnostic() async throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-pi-diagnostic-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-pi-diagnostic-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
 

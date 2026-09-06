@@ -40,13 +40,13 @@ public struct FilePreviewReader: Sendable {
         // below it are still rejected by the O_NOFOLLOW openat walk below.
         guard isInside(fileURL, root: lexicalWorkspace),
               isInside(resolvedFileURL, root: workspace) else {
-            throw WorkPiError.fileNotFound(fileURL)
+            throw PuraPiError.fileNotFound(fileURL)
         }
         let identityURL = resolvedFileURL.standardizedFileURL
 
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(atPath: fileURL.path, isDirectory: &isDirectory), !isDirectory.boolValue else {
-            throw WorkPiError.fileNotFound(fileURL)
+            throw PuraPiError.fileNotFound(fileURL)
         }
 
         let relativePath = relativePath(
@@ -57,7 +57,7 @@ public struct FilePreviewReader: Sendable {
         // on followed path attributes. The final object must be a regular inode.
         var lexicalStat = stat()
         let lstatResult = fileURL.path.withCString { path in lstat(path, &lexicalStat) }
-        guard lstatResult == 0 else { throw WorkPiError.fileNotFound(fileURL) }
+        guard lstatResult == 0 else { throw PuraPiError.fileNotFound(fileURL) }
         guard (lexicalStat.st_mode & S_IFMT) == S_IFREG else {
             return FilePreview(
                 url: identityURL,

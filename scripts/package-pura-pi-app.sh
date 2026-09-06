@@ -5,9 +5,9 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG="${CONFIG:-release}"
 OUTPUT_DIR="${OUTPUT_DIR:-$ROOT_DIR/dist}"
-APP_PATH="${OUTPUT_DIR}/Pura Pi.app"
-BIN_NAME="WorkPi"
-BUNDLE_NAME="WorkPi_WorkPi.bundle"
+APP_PATH="${OUTPUT_DIR}/PuraPi.app"
+BIN_NAME="PuraPi"
+BUNDLE_NAME="PuraPi_PuraPi.bundle"
 
 cd "$ROOT_DIR"
 swift build -c "$CONFIG"
@@ -22,7 +22,7 @@ chmod +x "$APP_PATH/Contents/MacOS/PuraPi"
 
 # SwiftPM 的 Bundle.module accessor 会在主 App bundle 根目录查找资源 bundle。
 cp -R "$BIN_DIR/$BUNDLE_NAME" "$APP_PATH/$BUNDLE_NAME"
-cp "$ROOT_DIR/Sources/WorkPi/Resources/PuraPi.icns" "$APP_PATH/Contents/Resources/PuraPi.icns"
+cp "$ROOT_DIR/Sources/PuraPi/Resources/PuraPi.icns" "$APP_PATH/Contents/Resources/PuraPi.icns"
 
 cat > "$APP_PATH/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
@@ -32,17 +32,17 @@ cat > "$APP_PATH/Contents/Info.plist" <<'PLIST'
   <key>CFBundleDevelopmentRegion</key>
   <string>zh_CN</string>
   <key>CFBundleDisplayName</key>
-  <string>Pura Pi</string>
+  <string>PuraPi</string>
   <key>CFBundleExecutable</key>
   <string>PuraPi</string>
   <key>CFBundleIconFile</key>
   <string>PuraPi.icns</string>
   <key>CFBundleIdentifier</key>
-  <string>works.workpi.WorkPi</string>
+  <string>works.purapi.PuraPi</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleName</key>
-  <string>Pura Pi</string>
+  <string>PuraPi</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>

@@ -19,7 +19,7 @@ public enum PiRPCError: LocalizedError, Equatable, Sendable {
     public var errorDescription: String? {
         switch self {
         case .executableNotFound(let name):
-            return "找不到 Pi 可执行文件“\(name)”。请在 Pura Pi 设置中检查 Runtime，或设置 PI_EXECUTABLE。"
+            return "找不到 Pi 可执行文件“\(name)”。请在 PuraPi 设置中检查 Runtime，或设置 PI_EXECUTABLE。"
         case .invalidWorkspace(let url):
             return "无法在无效工作区启动 Pi：\(url.path)"
         case .alreadyRunning:

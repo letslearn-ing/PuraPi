@@ -32,7 +32,7 @@ public final class FSEventsWorkspaceFileMonitor: WorkspaceFileMonitor, @unchecke
     }
 
     private let rootURL: URL
-    private let queue = DispatchQueue(label: "WorkPi.WorkspaceFileMonitor")
+    private let queue = DispatchQueue(label: "PuraPi.WorkspaceFileMonitor")
     private var stream: FSEventStreamRef?
     private var callbackContext: CallbackContext?
     private var continuation: AsyncStream<WorkspaceFileChange>.Continuation?

@@ -11,16 +11,24 @@ public enum PiExtensionUIDialogMethod: String, Equatable, Sendable {
 
 /// 从 `extension_ui_request` 记录提取出的协议模型。
 ///
-/// 这个模型只属于 PiRPC：它保留协议字段，并把 WorkPi 需要的扩展载荷映射为
+/// 这个模型只属于 PiRPC：它保留协议字段，并把 PuraPi 需要的扩展载荷映射为
 /// PiDomain 的稳定快照；它不复制 Pi 的完整私有消息 schema。
 ///
-/// WorkPi SubAgent 面板的结构化 widget 载荷。
+/// PuraPi SubAgent 面板的结构化 widget 载荷。
 ///
 /// Pi Extension UI 目前只提供字符串数组 widget，因此扩展把版本化 JSON 放在
 /// 保留前缀后。解析失败时返回 nil，调用方应保留上一份有效快照。
 public struct PiSubagentPanelPayload: Equatable, Sendable {
-    public static let widgetKey = "workpi.subagent.panel"
-    public static let linePrefix = "WORKPI_SUBAGENT_PANEL_V1 "
+    public static let widgetKey = "purapi.subagent.panel"
+    public static let linePrefix = "PURAPI_SUBAGENT_PANEL_V1 "
+
+    private static let legacyWidgetKey = PuraPiLegacyIdentifiers.subagentWidgetKey
+    private static let legacyLinePrefix = PuraPiLegacyIdentifiers.subagentLinePrefix
+    private static let acceptedWidgetKeys = [widgetKey, legacyWidgetKey]
+
+    public static func isWidgetKey(_ key: String) -> Bool {
+        acceptedWidgetKeys.contains(key)
+    }
 
     public let sequence: Int64
     public let parentSessionID: String
@@ -50,11 +58,17 @@ public struct PiSubagentPanelPayload: Equatable, Sendable {
     }
 
     public init?(widgetKey: String?, lines: [String]?) {
-        guard widgetKey == Self.widgetKey,
-              let line = lines?.first(where: { $0.hasPrefix(Self.linePrefix) })
+        guard let widgetKey,
+              Self.acceptedWidgetKeys.contains(widgetKey),
+              let line = lines?.first(where: {
+                  $0.hasPrefix(Self.linePrefix) || $0.hasPrefix(Self.legacyLinePrefix)
+              })
         else { return nil }
 
-        let rawJSON = String(line.dropFirst(Self.linePrefix.count))
+        let prefix = line.hasPrefix(Self.linePrefix)
+            ? Self.linePrefix
+            : Self.legacyLinePrefix
+        let rawJSON = String(line.dropFirst(prefix.count))
         guard let data = rawJSON.data(using: .utf8),
               let wire = try? JSONDecoder().decode(WirePanel.self, from: data),
               wire.version == 1,

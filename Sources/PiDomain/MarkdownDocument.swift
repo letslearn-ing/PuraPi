@@ -3,7 +3,7 @@ import Foundation
 /// 编辑中的 Markdown 文档。
 ///
 /// 持有块序列与打开时的基线信息。基线用于保存前的冲突判定：Pi 的
-/// `file-mutation-queue` 只在 Pi 进程内串行化写入，它不知道 WorkPi 的写入，
+/// `file-mutation-queue` 只在 Pi 进程内串行化写入，它不知道 PuraPi 的写入，
 /// 因此「Agent 正在写 + 用户正在编辑同一文件」的丢失风险必须由我们防。
 public struct MarkdownDocument: Equatable, Sendable {
     public let url: URL

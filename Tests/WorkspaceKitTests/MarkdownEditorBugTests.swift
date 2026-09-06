@@ -7,7 +7,7 @@ import XCTest
 ///
 /// 这三条都是审查代码时推断、并用测试确认真实存在后才修的：
 /// 段落拆分缺空行导致两段合一、合并后残留孤立空行、有序列表编号不重排。
-/// 修复在 `WorkPiMarkdownEditorView`（容器层），这里锁住块模型侧的表现。
+/// 修复在 `PuraPiMarkdownEditorView`（容器层），这里锁住块模型侧的表现。
 final class MarkdownEditorBugTests: XCTestCase {
     /// 缺陷一：段落之间靠 blank 块分隔，拆块时若不插入 blank，
     /// 两个段落会挨在一起，序列化后变成同一段的两行。

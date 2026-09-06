@@ -3,7 +3,7 @@ import PiDomain
 
 /// 源码 ↔ 块序列的双向映射。
 ///
-/// 与只读渲染用的解析器（`WorkPiMarkdownParser`）不同，这里的硬要求是**往返保真**：
+/// 与只读渲染用的解析器（`PuraPiMarkdownParser`）不同，这里的硬要求是**往返保真**：
 /// `serialize(parse(text)) == text` 必须逐字节成立。原因有两个——
 /// 用户只改一行时不该重写整个文件（污染 git diff），以及 Agent 的 `edit` 工具
 /// 依赖 `oldText` 精确匹配，我们重排格式会让它失效。

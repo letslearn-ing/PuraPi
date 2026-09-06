@@ -6,7 +6,7 @@ import XCTest
 final class PiRPCProcessTransportLifecycleTests: XCTestCase {
     func testStopCanInterruptAStalledStdinWrite() async throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-pi-rpc-stalled-write-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-pi-rpc-stalled-write-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -25,7 +25,7 @@ final class PiRPCProcessTransportLifecycleTests: XCTestCase {
 
     func testCancellingStalledWriteStopsTransportAndReleasesSendTask() async throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-pi-rpc-cancel-write-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-pi-rpc-cancel-write-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
 
@@ -45,7 +45,7 @@ final class PiRPCProcessTransportLifecycleTests: XCTestCase {
 
     func testStopWaitsUntilProcessCanBeStartedAgain() async throws {
         let root = FileManager.default.temporaryDirectory
-            .appendingPathComponent("WorkPi-pi-rpc-stop-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("PuraPi-pi-rpc-stop-\(UUID().uuidString)", isDirectory: true)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: root) }
 

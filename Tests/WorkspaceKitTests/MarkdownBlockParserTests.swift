@@ -260,9 +260,13 @@ final class MarkdownBlockParserTests: XCTestCase {
 
     // MARK: - 真实文档
 
-    /// 用仓库里的真实 README 做往返验证，比构造样例更能暴露边界。
+    /// 用仓库里的真实文档做往返验证，比构造样例更能暴露边界。
     func testRoundTripRealProjectDocuments() throws {
         let candidates = [
+            "docs/MARKDOWN_EDITOR.md",
+            "docs/agent/CODE_MAP.md",
+            "docs/BENCHMARKS.md",
+            "AGENTS.md",
             "README.md",
         ]
         var checked = 0

@@ -2,14 +2,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "WorkPi",
+    name: "PuraPi",
     platforms: [
         .macOS(.v14),
     ],
     products: [
         .executable(
-            name: "WorkPi",
-            targets: ["WorkPi"]
+            name: "PuraPi",
+            targets: ["PuraPi"]
         ),
     ],
     targets: [
@@ -25,7 +25,7 @@ let package = Package(
             dependencies: ["PiDomain"]
         ),
         .executableTarget(
-            name: "WorkPi",
+            name: "PuraPi",
             dependencies: ["PiDomain", "PiRPC", "WorkspaceKit"],
             resources: [
                 .process("Resources")
@@ -44,8 +44,8 @@ let package = Package(
             dependencies: ["WorkspaceKit"]
         ),
         .testTarget(
-            name: "WorkPiTests",
-            dependencies: ["WorkPi", "PiDomain", "PiRPC", "WorkspaceKit"]
+            name: "PuraPiTests",
+            dependencies: ["PuraPi", "PiDomain", "PiRPC", "WorkspaceKit"]
         ),
     ]
 )

@@ -24,7 +24,7 @@ public struct BashExecution: Identifiable, Equatable, Sendable {
     public var state: State
     /// 输出被截断时，完整日志的路径。
     public var fullOutputPath: String?
-    /// WorkPi 为保护内存而在实时流阶段截断了本地显示内容。
+    /// PuraPi 为保护内存而在实时流阶段截断了本地显示内容。
     public var outputTruncated: Bool
 
     public init(

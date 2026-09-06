@@ -350,7 +350,7 @@ public struct PiRPCCommand: Encodable, Equatable, Sendable {
 
 /// Pi 可用模型的最小标识。
 ///
-/// 只保留 WorkPi 选择器需要的字段；`provider` 与 `id` 共同构成唯一键，
+/// 只保留 PuraPi 选择器需要的字段；`provider` 与 `id` 共同构成唯一键，
 /// 因为同一模型 id 可能同时出现在多个 provider 下。
 public struct PiRPCModelInfo: Equatable, Identifiable, Sendable {
     public let id: String
@@ -704,7 +704,7 @@ public struct PiRPCRecord: Decodable, Equatable, Sendable {
 
     /// `get_session_stats` 的完整统计。
     /// `get_state` 的运行状态字段。Pi 0.84.4 不在这里返回 auto retry 设置，
-    /// 因此自动重试状态由 WorkPi 在 `set_auto_retry` 成功后单独缓存。
+    /// 因此自动重试状态由 PuraPi 在 `set_auto_retry` 成功后单独缓存。
     public var stateIsStreaming: Bool? {
         value(at: "data", "isStreaming")?.boolValue
     }
