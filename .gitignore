@@ -1,0 +1,11 @@
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+xcuserdata/
+DerivedData/
+
+# Local files
+dist/
+.DS_Store
+*.xcuserstate
